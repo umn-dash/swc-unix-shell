@@ -3,13 +3,14 @@ FROM jupyter/scipy-notebook:6d42503c684f
 MAINTAINER David Naughton <naughton@umn.edu>
 
 USER root
-RUN apt update -y && \
-    apt install -y less man
-
-# install manpages, ignoring this harmless error:
-# The command '/bin/bash -o pipefail -c yes | unminimize' returned a non-zero code: 141
-RUN yes | unminimize \ 
-    || if [[ $? -eq 141 ]]; then true; else exit $?; fi
+# Remove the manpage blacklist, install man, install manpages
+RUN rm /etc/dpkg/dpkg.cfg.d/excludes && \
+    apt update -y && \
+    apt install -y less && \
+    dpkg -l | grep ^ii | cut -d' ' -f3 | xargs apt install -yq --no-install-recommends --reinstall man && \
+    apt clean && \
+    mv /usr/bin/man.REAL /usr/bin/man && \
+    rm -rf /var/lib/apt/lists/*
 
 USER $NB_UID
 RUN mkdir "/home/${NB_USER}/Desktop" && \
