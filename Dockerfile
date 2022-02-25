@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:6d42503c684f
+FROM jupyter/scipy-notebook
 
 MAINTAINER David Naughton <naughton@umn.edu>
 
@@ -15,7 +15,7 @@ RUN rm /etc/dpkg/dpkg.cfg.d/excludes && \
 USER $NB_UID
 RUN mkdir "/home/${NB_USER}/Desktop" && \
     cd "/home/${NB_USER}/Desktop" && \
-    wget https://swcarpentry.github.io/shell-novice/data/data-shell.zip && \
-    unzip data-shell.zip && \
+    wget https://swcarpentry.github.io/shell-novice/data/shell-lesson-data.zip && \
+    unzip shell-lesson-data.zip && \
     chmod -R g+rw "/home/${NB_USER}/Desktop" && \
     echo "PS1='\$ '" >> ~/.bashrc
