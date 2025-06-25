@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook
+FROM quay.io/jupyter/scipy-notebook
 
 MAINTAINER David Naughton <naughton@umn.edu>
 
